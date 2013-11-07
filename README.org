@@ -11,7 +11,9 @@ If you  have clang or  gcc, you should  be able to  compile everything
 fine.  In order to run the tests, you will need valgrind.
 
  $ cd src
+
  $ make funky
+
  $ echo '(+ 3 2 1)' | ./funky
 
 
