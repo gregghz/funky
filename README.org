@@ -181,6 +181,12 @@ second argument).
 
 Thus we  only evaluate repeat  until we  get the desired  for elements
 from it and then its evaluation.
+ 
+* Documentation
+The most unambiguous documentation for this language will always be in
+the tests.  Look  at src/test/*.in and the related *.out  files to see
+how everything is generally expected to work.  Plan is to (eventually)
+generate docs from the test data. :P
 
 * Gotchas
 Because this  is alpha  software, the following  things are  sadly and
@@ -190,6 +196,9 @@ temporarily true:
      text you gave it.
   2. Not all of the necessary features are finished
   3. It's slow/inefficient.  It'll be faster.  Promise.
+  4. I  broke closures  while trying  to optimize  garbage collection.
+     But since we  have currying, I'm not losing sleep  over that yet.
+     They'll be back soon.
 
 * License
 Copyright (c) 2013, Anthony "Ishpeck" Tedjamulia All rights reserved.
