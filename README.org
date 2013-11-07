@@ -194,6 +194,15 @@ Output:
 
  FOOBY BARBY
 
+If the operand is not found as a key in the grid, nil is passed in for
+the unfound argument.
+
+ {fooby:"FOOBY", barby:"BARBY"} ~> (def (fooby barby) (print fooby barby))
+
+Output:
+
+ nil BARBY
+ 
 
 ** Laziness
 Like other  LISP languages,  Funky is eagerly  evaluated at  its core.
