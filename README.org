@@ -30,6 +30,7 @@ We've added  some sugar to help  make things a little  more legible to
 the unenlightened.  The following lines are interchangeable...
 
  [1 2 3]
+
  (list 1 2 3)
 
 Commas are white-space characters so people coming from something like
@@ -37,6 +38,7 @@ a Python background can construct lists  the way they're used to.  The
 following lines are interchangeable.
 
  [1,2,3]
+
  (list 1 2 3)
 
 ** Grids
@@ -48,12 +50,14 @@ There's syntactic  sugar so it can  be annotated the way  you might do
 for JSON or Python dicts. The following lines are interchangeable:
 
  (grid (pair "key" "val") (pair "one" 1))
+
  {"key" : "val", "one" : 1}
 
 The "." operator  gets elements from a grid.  The  following lines are
 interchangeable:
 
  (get mygrid "foo")
+
  mygrid . "foo"
 
 Output: 
@@ -70,15 +74,18 @@ following lines are interchangeable:
 As are these:
 
  gridThing . "key"
+
  gridThing."key"
 
 If a grid's key is an atom  rather than a string, you needn't surround
 it in quotes when getting its value.
 
  (set! yourmom {stinks:true})
+
  yourmom.stinks
 
 Output:
+
  true
 
 ** Comments
@@ -98,11 +105,15 @@ number of arguments given.
 Funky impicitly curries incomplete procedure calls.
 
  (def foo (x y z) (+ x y z))
+
  (set! threeplus (foo 3))
+
  (set! threeplustwoplus (threeplus 2))
+
  (threeplustwoplus 2)
 
 Output:
+
  7
 
 When extra arguments are given, they  are stored in the &args list for
@@ -112,6 +123,7 @@ the same line, and will return  the last argument given (per the rules
 of print).
 
  (def bar (x y) (print x) (print y) (apply print &args))
+
  (bar 3 4 5 6 7 8 9)
 
 If  it's  more important  that  you  have  each  operand bound  to  an
@@ -121,6 +133,7 @@ applying a procedure, incomplete calls evaluate down to an error.
  (strict-apply foo (list 1 2))
 
 Output:
+
  (err "Argument count does not match the operand count")
 
 Strict application  will error-out  if you  give too  few or  too many
@@ -132,21 +145,25 @@ folks to  read.  We have sugar  to help keep the  nesting from getting
 out of control.  Given the following procedure definitions...
 
  (def addthree (x) (+ x 3))
+
  (def addmore (x y z) (+ x y z))
 
 ... the following lines are interchangeable with each other:
 
  (addthree (+ 2 2))
+
  (+ 2 2) -> addthree
 
 ... and these are interchangeable with each other:
 
  (apply addmore [1 2 3])
+
  [1 2 3] ~> addmore
 
 ... and these lines are also interchangeable with each other:
 
  (strict-apply addmore [1 2 3])
+
  [1 2 3] S> addmore
 
 ** Laziness
