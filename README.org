@@ -25,6 +25,19 @@ Defining procedures works basically like with Common:
 
  (def foo (x y) (+ x y))
 
+The procedure's  name immediately follows  the call to  the definition
+macro (so  it's not inside  the operand definition expression  like in
+scheme-descended LISP's).
+
+Naming a procedure  is optional.  If you omit the  procedure name in a
+def call, it becomes an anonymous procedure (a lambda).
+
+ ((def (x y) (+ x y)) 3 4)
+
+Output:
+
+ 7
+
 ** List Construction and Sugar
 We've added  some sugar to help  make things a little  more legible to
 the unenlightened.  The following lines are interchangeable...
