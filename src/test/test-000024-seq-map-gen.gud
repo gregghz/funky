@@ -1,0 +1,17 @@
+(1 ((<def @address-omitted@ (starting finishing) ((if (< starting finishing) (list starting (gen seq (+ 1 starting) finishing)) (list finishing)))>) 2 10))
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+1
+2
+4
+(1 2 3 4)
+("yes" "yes" "yes" "yes")

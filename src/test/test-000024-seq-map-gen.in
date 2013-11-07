@@ -1,0 +1,7 @@
+(set! sequence (seq 1 10))
+(show (map (def (x) x) sequence))
+(nth 0 (seq 1 10))
+(nth 1 (seq 1 10))
+(nth 3 (seq 1 10))
+(take 4 (seq 1 10))
+(take 4 (repeat "yes"))

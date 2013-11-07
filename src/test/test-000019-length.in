@@ -1,0 +1,6 @@
+(len [1 2 3 4])
+(if (> (len [1 2]) (len [1 2 3]))
+    (print "Your comparison is broken")
+    (print "Length comparisons look good"))
+(def procedureHeadIsOpList (x y) (+ x y))
+(len (head procedureHeadIsOpList))

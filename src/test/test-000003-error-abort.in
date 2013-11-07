@@ -1,0 +1,3 @@
+(def foo () (print "hello, world") (err "it is over") (print "I don't matter"))
+(foo)
+(apply + (err "this is no good"))

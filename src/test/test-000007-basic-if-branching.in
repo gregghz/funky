@@ -1,0 +1,2 @@
+(if nil (print "Nil is true") (print "nil is false"))
+(if true (print "True is true") (print "True is false"))

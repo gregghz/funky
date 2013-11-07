@@ -1,0 +1,13 @@
+(<def @address-omitted@ (x y) ((+ x y))>)
+(err "Argument count does not match the operand count")
+10
+(err "Argument count does not match the operand count")
+(err "Argument count does not match the operand count")
+12
+(err "Argument count does not match the operand count")
+(err "Argument count does not match the operand count")
+4
+(err "Argument count does not match the operand count")
+(err "Argument count does not match the operand count")
+14
+(err "Argument count does not match the operand count")

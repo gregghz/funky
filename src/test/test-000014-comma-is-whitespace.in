@@ -1,0 +1,2 @@
+(print "If you're too used to Python, we got you covered because commas are whitespace characters.")
+[1, 2, 3, 4]

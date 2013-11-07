@@ -1,0 +1,5 @@
+(err "this is no good")
+(<def @address-omitted@  ((print "hello, world") (err "it is over") (print "I don't matter"))> (print "I don't matter"))
+hello, world
+(err "it is over")
+(err "this is no good")

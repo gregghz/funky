@@ -1,0 +1,3 @@
+(rapply (list "foo" "bar" "bas") print)
+(rapply (list "foo" "bar" "bas") print)
+(print "Done")

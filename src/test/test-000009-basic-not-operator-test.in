@@ -1,0 +1,2 @@
+(if (not true) (print "something went horribly wrong") (print "OK"))
+(not nil)

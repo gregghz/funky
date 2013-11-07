@@ -1,0 +1,8 @@
+(def foo (x) (+ x 1))
+(lambda? foo)
+(if (lambda? "sanotehu") (print "String is a lambda?") (print "False"))
+(if (lambda? 1234) (print "Number is a lambda?") (print "False"))
+(if (lambda? (list 1 2 3)) (print "List is a lambda?") (print "False"))
+(lambda? +)
+(if (atom? 123) (print "BAD") (print "False"))
+(atom? (quote x))

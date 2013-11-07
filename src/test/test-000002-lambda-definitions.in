@@ -1,0 +1,4 @@
+(mac bar (x) (print x))
+(bar biggitty)
+(def bas (x y) (+ x y))
+(bas 3 4)

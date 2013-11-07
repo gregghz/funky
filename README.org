@@ -1,0 +1,198 @@
+#+TITLE: Funky LISP
+Funky LISP is a scripting language designed for interoperation between
+short-lived processes  as through  a Unix  pipe or  sockets.  Features
+include  loose  typing,  lazy  evaluation,  native  support  for  JSON
+objects, implicit currying, LISP-style  macros, and a little non-LISPy
+syntactic sugar to  help mitigate the paren hell that  most LISP n00bs
+whine about.
+
+* Quick Start
+If you have  valgrind and either clang  or gcc, you should  be okay to
+just run...
+
+   make funky
+
+... in the src directory.
+
+* Intro
+For the most part, Funky is pretty much a variation on Common LISP.
+
+** Procedure Definition
+Defining procedures works basically like with Common:
+
+ (def foo (x y) (+ x y))
+
+** List Construction and Sugar
+We've added  some sugar to help  make things a little  more legible to
+the unenlightened.  The following lines are interchangeable...
+
+ [1 2 3]
+ (list 1 2 3)
+
+Commas are white-space characters so people coming from something like
+a Python background can construct lists  the way they're used to.  The
+following lines are interchangeable.
+
+ [1,2,3]
+ (list 1 2 3)
+
+** Grids
+We have a native hash table type called a "grid" 
+
+ (grid (pair "key" "val") (pair "one" 1))
+
+There's syntactic  sugar so it can  be annotated the way  you might do
+for JSON or Python dicts. The following lines are interchangeable:
+
+ (grid (pair "key" "val") (pair "one" 1))
+ {"key" : "val", "one" : 1}
+
+The "." operator  gets elements from a grid.  The  following lines are
+interchangeable:
+
+ (get mygrid "foo")
+ mygrid . "foo"
+
+Output: 
+ FOO
+
+Originally the  : and .  operators  needed to be separated  from other
+tokens by spaces.  However, in order to improve our ability to consume
+Javascript,  those  two operations  break  the  symbol boundary.   The
+following lines are interchangeable:
+
+ {"blah":429857, "narghe":92090}
+ {"blah" : 429857, "narghe" : 92090}
+
+As are these:
+
+ gridThing . "key"
+ gridThing."key"
+
+If a grid's key is an atom  rather than a string, you needn't surround
+it in quotes when getting its value.
+
+ (set! yourmom {stinks:true})
+ yourmom.stinks
+
+Output:
+ true
+
+** Comments
+Though  this  is   an  anticommentist  (http://www.anticommentist.org)
+porject and the  goal is to make the language  unambiguous enough that
+comments are not needed for the vast majority of algorithms, we wanted
+to  be able  to  make scripts  in  Funky usable  from  the shell  with
+shebangs.   So we  lifted the  shell script  convention of  # denoting
+comments.  Everything from # to the end of the line will be ignored by
+the interpreter.
+
+** Currying, Arity and Strict Application
+All procedures  in Funky  are variatic  (they can  take any  number of
+arguments).   The output  of the  procedure  may change  based on  the
+number of arguments given.
+
+Funky impicitly curries incomplete procedure calls.
+
+ (def foo (x y z) (+ x y z))
+ (set! threeplus (foo 3))
+ (set! threeplustwoplus (threeplus 2))
+ (threeplustwoplus 2)
+
+Output:
+ 7
+
+When extra arguments are given, they  are stored in the &args list for
+the scope of that procedure.  The  following funk will print the first
+two arguments  given on their  own lines, all subsequent  arguments on
+the same line, and will return  the last argument given (per the rules
+of print).
+
+ (def bar (x y) (print x) (print y) (apply print &args))
+ (bar 3 4 5 6 7 8 9)
+
+If  it's  more important  that  you  have  each  operand bound  to  an
+argument,  you  can enforce  that  with  strict-apply.  When  strictly
+applying a procedure, incomplete calls evaluate down to an error.
+
+ (strict-apply foo (list 1 2))
+
+Output:
+ (err "Argument count does not match the operand count")
+
+Strict application  will error-out  if you  give too  few or  too many
+arguments to the procedure.
+
+** Application Sugar
+Having lots  of nested  procedure calls  can get a  bit hard  for some
+folks to  read.  We have sugar  to help keep the  nesting from getting
+out of control.  Given the following procedure definitions...
+
+ (def addthree (x) (+ x 3))
+ (def addmore (x y z) (+ x y z))
+
+... the following lines are interchangeable with each other:
+
+ (addthree (+ 2 2))
+ (+ 2 2) -> addthree
+
+... and these are interchangeable with each other:
+
+ (apply addmore [1 2 3])
+ [1 2 3] ~> addmore
+
+... and these lines are also interchangeable with each other:
+
+ (strict-apply addmore [1 2 3])
+ [1 2 3] S> addmore
+
+** Laziness
+Like other  LISP languages,  Funky is eagerly  evaluated at  its core.
+But since LISP is  the True Way of Computing, laziness  is easy to add
+to the language.
+
+The  "repeat"  procedure  will  take  any  expression  and  repeat  it
+infinitely.  The "take" procedure will  take the first N elements from
+the list  given (where  N is the  first argument and  the list  is the
+second argument).
+
+ (+ 3 2) -> repeat -> (take 4)
+
+Thus we  only evaluate repeat  until we  get the desired  for elements
+from it and then its evaluation.
+
+* Gotchas
+Because this  is alpha  software, the following  things are  sadly and
+temporarily true:
+
+  1. The funk machine currently  reads until EOF before evaluating the
+     text you gave it.
+  2. Not all of the necessary features are finished
+  3. It's slow/inefficient.  It'll be faster.  Promise.
+
+* License
+Copyright (c) 2013, Anthony "Ishpeck" Tedjamulia All rights reserved.
+
+Redistribution  and use  in source  and other  forms, with  or without
+modification, are permitted provided that the following conditions are
+met:
+
+Redistributions of source code must retain the above copyright notice,
+this list of conditions  and the following disclaimer. Redistributions
+in other form must reproduce the  above copyright notice, this list of
+conditions and  the following  disclaimer in the  documentation and/or
+other materials  provided with the  distribution. Neither the  name of
+the author nor the names of its contributors may be used to endorse or
+promote  products derived  from this  software without  specific prior
+written permission. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS
+AND  CONTRIBUTORS  ?AS IS?  AND  ANY  EXPRESS OR  IMPLIED  WARRANTIES,
+INCLUDING,   BUT   NOT  LIMITED   TO,   THE   IMPLIED  WARRANTIES   OF
+MERCHANTABILITY   AND   FITNESS   FOR   A   PARTICULAR   PURPOSE   ARE
+DISCLAIMED. IN NO EVENT SHALL  THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR  ANY DIRECT,  INDIRECT, INCIDENTAL, SPECIAL,  EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES  (INCLUDING, BUT NOT LIMITED  TO, PROCUREMENT OF
+SUBSTITUTE  GOODS OR  SERVICES;  LOSS  OF USE,  DATA,  OR PROFITS;  OR
+BUSINESS INTERRUPTION) HOWEVER CAUSED AND  ON ANY THEORY OF LIABILITY,
+WHETHER IN  CONTRACT, STRICT LIABILITY, OR  TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

@@ -1,0 +1,8 @@
+(= 3 3)
+(= 3 3 3 3 3 3 3)
+(if (= 3 2) (print "Three is equal to two") (print "Three is not equal to two"))
+(if (= 3 (+ 1 2)) (print "Three is equal to the sum of one and two") (print "BAD!"))
+(= (list 1 2 (list 3 4) 5) (list 1 2 (list 3 4) 5) )
+(if (= (list 1 2 (list 3 4) 5) (list 1 2 (list 4 3) 5) ) (print "BAD") (print "OK"))
+(= "foo" "foo")
+(if (= "foo" "bar") (print "foo should not equal bar") (print "OK"))

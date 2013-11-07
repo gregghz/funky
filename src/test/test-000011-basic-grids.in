@@ -1,0 +1,13 @@
+(true? (set! x (grid (pair "foo" "FOO") 
+               (pair "bas" "BAS") 
+               (pair "bar" "BAR") 
+               (pair "quux" "QUUX") )))
+(get x "foo")
+(get x "bar")
+(get x "bas")
+(get x "quux")
+(true? (set! y {(pair "a" "alpha") (pair "b" "bravo")}))
+(get y "a")
+(get y "b")
+
+

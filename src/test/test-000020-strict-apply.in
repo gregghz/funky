@@ -1,0 +1,13 @@
+(def apply-to-me-strictly (x y) (+ x y))
+(strict-apply apply-to-me-strictly [1])
+(strict-apply apply-to-me-strictly [8,2])
+(strict-apply apply-to-me-strictly [1,2,3])
+(strict-rapply [1] apply-to-me-strictly)
+(strict-rapply [9 3] apply-to-me-strictly)
+(strict-rapply [1 2 3] apply-to-me-strictly)
+[1] S> apply-to-me-strictly
+[2 2] S> apply-to-me-strictly
+[3 3 3] S> apply-to-me-strictly
+apply-to-me-strictly <S [4]
+apply-to-me-strictly <S [7 7]
+apply-to-me-strictly <S [99 99 99]

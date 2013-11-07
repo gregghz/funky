@@ -1,0 +1,5 @@
+true
+true
+(<def @address-omitted@ (x y z a) ((print (+ x y z a)))>)
+12
+12

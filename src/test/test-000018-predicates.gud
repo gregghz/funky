@@ -1,0 +1,12 @@
+(<def @address-omitted@ (x) ((+ x 1))>)
+true
+False
+"False"
+False
+"False"
+False
+"False"
+true
+False
+"False"
+true

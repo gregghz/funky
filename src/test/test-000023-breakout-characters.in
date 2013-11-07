@@ -1,0 +1,4 @@
+(true? (set! yag {"aoeu":3,"ntoehu":4}))
+(rest yag:123)
+yag."aoeu"
+yag."ntoehu"

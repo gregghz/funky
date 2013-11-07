@@ -1,0 +1,5 @@
+(<mac @address-omitted@ (x) ((print x))>)
+biggitty
+biggitty
+(<def @address-omitted@ (x y) ((+ x y))>)
+7

@@ -1,0 +1,8 @@
+(true? (set! x {"foo":"BAR","bas":"quux"}))
+x . "foo"
+x . "bas"
+(def foo (x y z a) (list (+ x 1) (+ y 1) (+ z 1) (+ a 1)))
+[1 2 3 4] ~> foo ~> +
+"How about this?" -> print
++ <~ [1 2 3]
+[1, 2, 3, 4]

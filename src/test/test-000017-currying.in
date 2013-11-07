@@ -1,0 +1,4 @@
+(def foo (x y z) (+ x y z))
+(set! x (foo 11 12))
+(x 13)
+((foo 1 2) 3)

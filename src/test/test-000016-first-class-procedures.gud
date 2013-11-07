@@ -1,0 +1,3 @@
+(<def @address-omitted@ (x) ((+ x 4))>)
+(<def @address-omitted@ (f x) ((f x))>)
+7

@@ -1,0 +1,10 @@
+# This should have no bearing on the functionality of the code
+# The only reason we have them
+# is so we can have shebangs in our funk
+# so funky scripts can be shell executable handiness
+# But I just know they're going to be abused
+# by some derpy fresh-out-of-college brogrammer
+# who thinks that documenting the ever-loving snot out of his 
+# overengineered cruft-buckets is a valid alternative to being 
+# a good programmer
+(print "Comments are evil.")

@@ -1,0 +1,4 @@
+(set! (quote x) 24)
+(set! (quote y) 25)
+(set! (quote z) 26)
+(list x y z)
