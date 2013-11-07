@@ -328,3 +328,12 @@ thing_th *funky_gen(thing_th *args) {
 thing_th *funky_cons(thing_th *args) {
     return Cons(Car(args), Car(Cdr(args)));
 }
+
+thing_th *funky_append(thing_th *args) {
+    thing_th *output=duplicate(Car(args));
+    while(Cdr(args)) {
+        output=append(output, Car(Cdr(args)));
+        args=Cdr(args);
+    }
+    return output;
+}

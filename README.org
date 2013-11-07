@@ -41,7 +41,21 @@ Output:
 ** Macro Definition
 Macros work much like they do in other lisps.
 
- (mac yig (
+ (mac yig (x y) (append x y))
+
+ (yig (1 2 3) (4 5 6))
+
+OUTPUT:
+
+ (1 2 3 4 5 6)
+
+Macros can also be anonymous.
+
+ ((mac (x y) (append x y)) (1 2 3) (4 5 6))
+
+Output:
+
+ (1 2 3 4 5 6)
 
 ** List Construction and Sugar
 We've added  some sugar to help  make things a little  more legible to

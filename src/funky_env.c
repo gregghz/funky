@@ -89,6 +89,7 @@ int establish_root_environment(void) {
     Set(rootEnvironment, "len", Routine(&funky_length));
     Set(rootEnvironment, "gen", Routine(&funky_gen));
     Set(rootEnvironment, "cons", Routine(&funky_cons));
+    Set(rootEnvironment, "append", Routine(&funky_append));
     Set(rootEnvironment, UNKNOWN_HANDLER, Atom(UNKNOWN_LIT));
     establish_bacros(rootBacros);
     return new_env();
