@@ -185,6 +185,7 @@ out of control.  Given the following procedure definitions...
 
  [1 2 3] S> addmore
 
+** Applying Grids
 When grids are applied to procedures, apply will try to correlate each
 operand with a key in the grid and bind the value as its argument.
 
@@ -202,7 +203,6 @@ the unfound argument.
 Output:
 
  nil BARBY
- 
 
 ** Laziness
 Like other  LISP languages,  Funky is eagerly  evaluated at  its core.
