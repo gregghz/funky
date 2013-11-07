@@ -7,12 +7,13 @@ syntactic sugar to  help mitigate the paren hell that  most LISP n00bs
 whine about.
 
 * Quick Start
-If you have  valgrind and either clang  or gcc, you should  be okay to
-just run...
+If you  have clang or  gcc, you should  be able to  compile everything
+fine.  In order to run the tests, you will need valgrind.
 
-   make funky
+ $ cd src
+ $ make funky
+ $ echo '(+ 3 2 1)' | ./funky
 
-... in the src directory.
 
 * Intro
 For the most part, Funky is pretty much a variation on Common LISP.
