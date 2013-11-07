@@ -248,11 +248,16 @@ generate docs from the test data. :P
 Because this  is alpha  software, the following  things are  sadly and
 temporarily true:
 
-  1. The funk machine currently  reads until EOF before evaluating the
+  1. We don't  (and probably won't ever)  use the ' token  to quote an
+     expression.  Instead,  the single  quote character behaves  as it
+     does in most shell  scripting languages; signifying the beginning
+     and end of a quoted  string.  (Just like double-quote does).  You
+     can use the quote macro to quote things instead: (quote foo)
+  2. The funk machine currently  reads until EOF before evaluating the
      text you gave it.
-  2. Not all of the necessary features are finished
-  3. It's slow/inefficient.  It'll be faster.  Promise.
-  4. I  broke closures  while trying  to optimize  garbage collection.
+  3. Not all of the necessary features are finished
+  4. It's slow/inefficient.  It'll be faster.  Promise.
+  5. I  broke closures  while trying  to optimize  garbage collection.
      But since we  have currying, I'm not losing sleep  over that yet.
      They'll be back soon.
 
