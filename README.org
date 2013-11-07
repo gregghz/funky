@@ -38,6 +38,11 @@ Output:
 
  7
 
+** Macro Definition
+Macros work much like they do in other lisps.
+
+ (mac yig (
+
 ** List Construction and Sugar
 We've added  some sugar to help  make things a little  more legible to
 the unenlightened.  The following lines are interchangeable...
@@ -179,6 +184,16 @@ out of control.  Given the following procedure definitions...
  (strict-apply addmore [1 2 3])
 
  [1 2 3] S> addmore
+
+When grids are applied to procedures, apply will try to correlate each
+operand with a key in the grid and bind the value as its argument.
+
+ {fooby:"FOOBY", barby:"BARBY"} ~> (def (fooby barby) (print fooby barby))
+
+Output:
+
+ FOOBY BARBY
+
 
 ** Laziness
 Like other  LISP languages,  Funky is eagerly  evaluated at  its core.
