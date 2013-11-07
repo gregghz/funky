@@ -204,6 +204,11 @@ Output:
 
  nil BARBY
 
+Therefore, strict-apply does nothing differently when applying a grid.
+In  the  future,   it  may  become  worth-while   to  have  incomplete
+application  of grids  result in  a curried  procedure asking  for the
+ungiven arguments instead.  But that sounds like arity madness to me.
+
 ** Laziness
 Like other  LISP languages,  Funky is eagerly  evaluated at  its core.
 But since LISP is  the True Way of Computing, laziness  is easy to add
