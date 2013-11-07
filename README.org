@@ -91,7 +91,7 @@ Output:
 
 ** Comments
 Though  this  is   an  anticommentist  (http://www.anticommentist.org)
-porject and the  goal is to make the language  unambiguous enough that
+project and the  goal is to make the language  unambiguous enough that
 comments are not needed for the vast majority of algorithms, we wanted
 to  be able  to  make scripts  in  Funky usable  from  the shell  with
 shebangs.   So we  lifted the  shell script  convention of  # denoting
