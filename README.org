@@ -69,6 +69,7 @@ Javascript,  those  two operations  break  the  symbol boundary.   The
 following lines are interchangeable:
 
  {"blah":429857, "narghe":92090}
+
  {"blah" : 429857, "narghe" : 92090}
 
 As are these:
