@@ -172,8 +172,10 @@ Output:
 
 ** Application Sugar
 Having lots  of nested  procedure calls  can get a  bit hard  for some
-folks to  read.  We have sugar  to help keep the  nesting from getting
-out of control.  Given the following procedure definitions...
+folks to  read.  The first thing  that most folks complain  about when
+learning LISP is the abundance of  parenthesis.  We have sugar to help
+keep the  nesting from  getting out of  control.  Given  the following
+procedure definitions...
 
  (def addthree (x) (+ x 3))
 
