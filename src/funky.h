@@ -71,13 +71,33 @@ typedef struct {
     grid_t *data;
 } grid_th;
 
-#define REPR_BLDR(fnm,typ,knd) thing_th *fnm(const char *label) { typ *newThing=calloc(1, sizeof(typ)); newThing->kind=knd; asprintf(&newThing->repr, "%s", label); return reg_thing((thing_th *)newThing); } 
+#define REPR_BLDR(fnm,typ,knd) thing_th *fnm(const char *label) {   \
+    typ *newThing=calloc(1, sizeof(typ));                           \
+    newThing->kind=knd; asprintf(&newThing->repr, "%s", label);     \
+    return reg_thing((thing_th *)newThing);                         \
+  }
 
-#define REPR_DSTR(fnm,typ) int fnm(thing_th *delMe) { typ *thing=(typ *)delMe; erase_string(thing->repr); free(thing); return 0; }
+#define REPR_DSTR(fnm,typ) int fnm(thing_th *delMe) {   \
+    typ *thing=(typ *)delMe;                            \
+    erase_string(thing->repr);                          \
+    free(thing);                                        \
+    return 0;                                           \
+  }
 
-#define LST_BLDR(fnm,typ,knd) thing_th *fnm(thing_th *car, thing_th *cdr) { typ *newThing=calloc(1, sizeof(typ)); newThing->kind=knd; newThing->CAR=car; newThing->CDR=cdr; return reg_thing((thing_th *)newThing); }
+#define LST_BLDR(fnm,typ,knd) thing_th *fnm(thing_th *car, thing_th *cdr) { \
+    typ *newThing=calloc(1, sizeof(typ));                               \
+    newThing->kind=knd; newThing->CAR=car;                              \
+    newThing->CDR=cdr;                                                  \
+    return reg_thing((thing_th *)newThing);                             \
+  }
 
-#define LST_DSTR(fnm,typ) int fnm(thing_th *delMe) { typ *thing=(typ *)delMe; thing->CAR=NULL; thing->CDR=NULL; free(thing); return 0; }
+#define LST_DSTR(fnm,typ) int fnm(thing_th *delMe) {    \
+    typ *thing=(typ *)delMe;                            \
+    thing->CAR=NULL;                                    \
+    thing->CDR=NULL;                                    \
+    free(thing);                                        \
+    return 0;                                           \
+  }
 
 int del_atom(thing_th *delMe);
 int del_number(thing_th *delMe);
