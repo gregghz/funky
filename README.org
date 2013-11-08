@@ -205,6 +205,12 @@ procedure definitions...
 
  addmore <S [1 2 3]
 
+This sugar can chain together  to break deeply nested expressions into
+small, legible parts:
+
+ (def thricemore (x) (+ x 3))
+ (seq 1 10) -> (map thricemore) -> (take 10) ~> print
+
 ** Applying Grids
 When grids are applied to procedures, apply will try to correlate each
 operand with a key in the grid and bind the value as its argument.
