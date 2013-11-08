@@ -208,9 +208,7 @@ procedure definitions...
 This sugar can chain together  to break deeply nested expressions into
 small, legible parts:
 
- (def thricemore (x) (+ x 3))
-
- (seq 1 10) -> (map thricemore) -> (take 10) ~> print
+ (seq 1 10) -> (map (def (x) (+ x 3))) -> (take 10) ~> print
 
 Output:
 
