@@ -305,7 +305,7 @@ static thing_th *inner_funky_length(thing_th *args) {
     unsigned long len=0;
     char *num;
     thing_th *outcome;
-    while(args) {
+    while(args && (Cdr(args) || Car(args))) {
         ++len;
         args=Cdr(args);
     }
