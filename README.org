@@ -181,11 +181,13 @@ out of control.  Given the following procedure definitions...
 
  (def addmore (x y z) (+ x y z))
 
-... the following lines are interchangeable with each other:
+... the following three lines are interchangeable with each other:
 
  (addthree (+ 2 2))
 
  (+ 2 2) -> addthree
+
+ addthree <- (+ 2 2)
 
 ... and these are interchangeable with each other:
 
@@ -193,11 +195,15 @@ out of control.  Given the following procedure definitions...
 
  [1 2 3] ~> addmore
 
+ addmore <~ addmore
+
 ... and these lines are also interchangeable with each other:
 
  (strict-apply addmore [1 2 3])
 
  [1 2 3] S> addmore
+
+ addmore <S [1 2 3]
 
 ** Applying Grids
 When grids are applied to procedures, apply will try to correlate each
