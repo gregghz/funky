@@ -61,6 +61,10 @@ static int process_arguments(int max, char **argv) {
             silentMode=1;
         else if(streq(argv[argc], "-d"))
             return desugar_stdin();
+        else if(streq(argv[argc], "-B") && (max-argc)>2) {
+            Set(rootBacros, argv[argc+1], Atom(argv[argc+2]));
+            argc+=2;
+        }
         else if(file_exists(argv[argc]))
             consume_file(argv[argc], silentMode ? do_nothing : depict);
     }
