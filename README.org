@@ -161,16 +161,14 @@ of print).
 
 If  it's  more important  that  you  have  each  operand bound  to  an
 argument,  you  can enforce  that  with  strict-apply.  When  strictly
-applying a procedure, incomplete calls evaluate down to an error.
+applying  a  procedure,  incomplete  calls  or  calls  with  too  many
+arguments evaluate down to an error.
 
  (strict-apply foo (list 1 2))
 
 Output:
 
  (err "Argument count does not match the operand count")
-
-Strict application  will error-out  if you  give too  few or  too many
-arguments to the procedure.
 
 ** Application Sugar
 Having lots  of nested  procedure calls  can get a  bit hard  for some
