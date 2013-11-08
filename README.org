@@ -252,7 +252,7 @@ generate docs from the test data. :P
 
 * Gotchas
 Because this  is alpha  software, the following  things are  sadly and
-temporarily true:
+(probably temporarily) true:
 
   1. We don't  (and probably won't ever)  use the ' token  to quote an
      expression.  Instead,  the single  quote character behaves  as it
