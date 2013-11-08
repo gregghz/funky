@@ -26,10 +26,6 @@ int is_whitespace(const char c) {
     return c==' ' || c=='\t' || c=='\n' || c=='\r' || c==',';
 }
 
-int is_input_terminator(const char c) {
-    return c=='\0' || c==EOF;
-}
-
 int is_opener(const char c) {
     return c=='(' || c=='[' || c=='{';
 }
@@ -48,10 +44,6 @@ int is_escaper(const char c) {
 
 int is_quotation(const char c) {
     return c=='"' || c=='\'';
-}
-
-int is_symbol_boundary(const char c) {
-    return c==EOF || is_whitespace(c) || is_paren(c) || is_quotation(c);
 }
 
 char parenthetical_compliment(const char c) {

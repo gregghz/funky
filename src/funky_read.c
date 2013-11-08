@@ -93,8 +93,8 @@ static thing_th *read_subcons(thing_th *first,
     return Cons(first, read_expressions(src, tb));
 }
 
-static char get_character(FILE *src) {
-    char inputChar;
+static int get_character(FILE *src) {
+    int inputChar;
     do {
         inputChar=getc(src);
         if(inputChar!='#')
@@ -107,9 +107,9 @@ static char get_character(FILE *src) {
 static thing_th *read_string(char starting,
                              FILE *src, 
                              text_buffer *tb) {
-    char inputChar;
+    int inputChar;
     while((inputChar=get_character(src))!=starting && inputChar!=EOF)
-        tb_append(tb, inputChar);
+        tb_append(tb, (char)inputChar);
     return read_subcons(String(tb->txt), src, tb);
 }
 
@@ -124,14 +124,14 @@ static thing_th *open_sub_cons(FILE *src, text_buffer *tb, char opener) {
     }
 }
 
-static int character_is_break_out_token(char inputChar) {
+static int character_is_break_out_token(int inputChar) {
     switch(inputChar) {
         case ':': case '.': return 1;
         default: return 0;
     }
 }
 
-static int literal_terminator_char(char inputChar) {
+static int literal_terminator_char(int inputChar) {
     return inputChar==EOF || character_is_break_out_token(inputChar) ||
         is_whitespace(inputChar) || 
         is_paren(inputChar) || 
@@ -139,7 +139,7 @@ static int literal_terminator_char(char inputChar) {
         
 }
 
-static thing_th *read_literals(FILE *src, text_buffer *tb, char inputChar) {
+static thing_th *read_literals(FILE *src, text_buffer *tb, int inputChar) {
     while(!literal_terminator_char(inputChar)) {
         tb_append(tb, inputChar);
         inputChar=get_character(src);
@@ -151,7 +151,7 @@ static thing_th *read_literals(FILE *src, text_buffer *tb, char inputChar) {
     return read_subcons(Atom(tb->txt), src, tb);
 }
 
-static thing_th *breakout_character(char inputChar) {
+static thing_th *breakout_character(int inputChar) {
     char *label;
     thing_th *atom;
     asprintf(&label, "%c", inputChar);
@@ -161,7 +161,7 @@ static thing_th *breakout_character(char inputChar) {
 }
 
 static thing_th *read_expressions(FILE *src, text_buffer *tb) {
-    char inputChar;
+    int inputChar;
     tb_clear(tb);
     while(is_whitespace(inputChar=get_character(src)));
     if(inputChar==EOF || is_closer(inputChar))
