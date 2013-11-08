@@ -358,18 +358,6 @@ thing_th *insert(thing_th *left, thing_th *right) {
     return right;
 }
 
-int is_known(thing_th *catalog, thing_th *thing) {
-    int result=0;
-    char *address;
-    if(!catalog || !thing)
-        return 0;
-    asprintf(&address, "%d", (int)thing);
-    if(!(result=Has(catalog, address)))
-        Set(catalog, address, thing);
-    erase_string(address);
-    return result;
-}
-
 thing_th *accumulate(thing_th *thing) {
     thing_th *accum=Cons(thing, NULL);
     thing_th *cur=accum;
