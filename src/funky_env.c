@@ -21,7 +21,7 @@ static thing_th *spawn_env(thing_th *prevEnv, thing_th *scope) {
         return env;
     anon=Primordial_Cons(NULL, NULL);
     Set(scope, ANONYMOUS_KW, anon);
-    Set(scope, "&anon-tail", anon);
+    Set(scope, ANON_TAIL_KW, anon);
     return env=Primordial_Cons(scope, prevEnv);
 }
 
@@ -218,8 +218,8 @@ static thing_th *safely_register_thing(thing_th *anon, thing_th *regMe) {
 static thing_th *reg_to_scope(thing_th *scope, thing_th *regMe) {
     if(!scope)
         return NULL;
-    Set(Car(scope), "&anon-tail", 
-        safely_register_thing(Get(Car(scope), "&anon-tail"), regMe));
+    Set(Car(scope), ANON_TAIL_KW, 
+        safely_register_thing(Get(Car(scope), ANON_TAIL_KW), regMe));
     return regMe;
 }
 

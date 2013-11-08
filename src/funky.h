@@ -13,6 +13,7 @@
 #define FUNKY_AFFIRMATIVE 1
 
 #define ANONYMOUS_KW "&anon"
+#define ANON_TAIL_KW "&anon-tail"
 #define UNKNOWN_HANDLER "&unknown-handler"
 #define UNKNOWN_NIL "&unknown-nil"
 #define UNKNOWN_LIT "&unknown-lit"
