@@ -21,8 +21,6 @@ LST_DSTR(del_gen,gen_th)
 
 thing_th *Err(thing_th *messages) {
     err_th *this_error=calloc(1, sizeof(err_th));
-    this_error->references=1;
-    this_error->level=count_env_levels();
     this_error->kind=error_k;
     this_error->CAR=Atom("err");
     this_error->CDR=messages;
@@ -32,8 +30,6 @@ thing_th *Err(thing_th *messages) {
 thing_th *Routine(c_routine theFunction) {
     routine_th *rout=calloc(1, sizeof(routine_th));
     rout->kind=routine_k;
-    rout->references=1;
-    rout->level=count_env_levels();
     rout->routine=theFunction;
     return reg_thing((thing_th *)rout);
 }
@@ -41,8 +37,6 @@ thing_th *Routine(c_routine theFunction) {
 thing_th *Method(c_routine theFunction) {
     routine_th *rout=calloc(1, sizeof(routine_th));
     rout->kind=method_k;
-    rout->references=1;
-    rout->level=count_env_levels();
     rout->routine=theFunction;
     return reg_thing((thing_th *)rout);
 }
@@ -64,8 +58,6 @@ int del_method(thing_th *thing) {
 thing_th *Grid(void) {
     grid_th *grid=calloc(1, sizeof(grid_th));
     grid->kind=grid_k;
-    grid->references=1;
-    grid->level=count_env_levels();
     grid->data=new_grid();
     return reg_thing((thing_th *)grid);
 }
@@ -81,18 +73,6 @@ kind_t th_kind(const thing_th *thing) {
     if(!thing)
         return null_k;
     return thing->kind;
-}
-
-unsigned int th_references(const thing_th *thing) {
-    if(thing)
-        return thing->references;
-    return 0;
-}
-
-unsigned int th_level(const thing_th *thing) {
-    if(thing)
-        return thing->level;
-    return 0;
 }
 
 int is_list(const thing_th *thing) {

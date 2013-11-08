@@ -251,8 +251,7 @@ how everything is generally expected to work.  Plan is to (eventually)
 generate docs from the test data. :P
 
 * Gotchas
-Because this  is alpha  software, the following  things are  sadly and
-(probably temporarily) true:
+Some things you'll want to know:
 
   1. We don't  (and probably won't ever)  use the ' token  to quote an
      expression.  Instead,  the single  quote character behaves  as it

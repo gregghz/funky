@@ -38,12 +38,10 @@ typedef enum {
 
 typedef struct {
     kind_t kind;
-    unsigned int references;
-    unsigned int level;
 } thing_th;
 
-#define REPR_TH(x) typedef struct { kind_t kind; unsigned int references; unsigned int level; char *repr; } x
-#define LST_TH(x) typedef struct { kind_t kind; unsigned int references; unsigned int level;  thing_th *CAR; thing_th *CDR; } x
+#define REPR_TH(x) typedef struct { kind_t kind; char *repr; } x
+#define LST_TH(x) typedef struct { kind_t kind; thing_th *CAR; thing_th *CDR; } x
 
 REPR_TH(atom_th);
 REPR_TH(number_th);
@@ -59,30 +57,24 @@ typedef thing_th *(*c_routine)(thing_th *);
 
 typedef struct {
     kind_t kind; 
-    unsigned int references;
-    unsigned int level;
     c_routine routine;
 } routine_th;
 
 typedef struct {
     kind_t kind; 
-    unsigned int references;
-    unsigned int level;
     c_routine routine;
 } method_th;
 
 typedef struct {
     kind_t kind; 
-    unsigned int references;
-    unsigned int level;
     grid_t *data;
 } grid_th;
 
-#define REPR_BLDR(fnm,typ,knd) thing_th *fnm(const char *label) { typ *newThing=calloc(1, sizeof(typ)); newThing->kind=knd; newThing->references=1; newThing->level=count_env_levels(); asprintf(&newThing->repr, "%s", label); return reg_thing((thing_th *)newThing); } 
+#define REPR_BLDR(fnm,typ,knd) thing_th *fnm(const char *label) { typ *newThing=calloc(1, sizeof(typ)); newThing->kind=knd; asprintf(&newThing->repr, "%s", label); return reg_thing((thing_th *)newThing); } 
 
 #define REPR_DSTR(fnm,typ) int fnm(thing_th *delMe) { typ *thing=(typ *)delMe; erase_string(thing->repr); free(thing); return 0; }
 
-#define LST_BLDR(fnm,typ,knd) thing_th *fnm(thing_th *car, thing_th *cdr) { typ *newThing=calloc(1, sizeof(typ)); newThing->kind=knd; newThing->references=1; newThing->level=count_env_levels();  newThing->CAR=car; newThing->CDR=cdr; return reg_thing((thing_th *)newThing); }
+#define LST_BLDR(fnm,typ,knd) thing_th *fnm(thing_th *car, thing_th *cdr) { typ *newThing=calloc(1, sizeof(typ)); newThing->kind=knd; newThing->CAR=car; newThing->CDR=cdr; return reg_thing((thing_th *)newThing); }
 
 #define LST_DSTR(fnm,typ) int fnm(thing_th *delMe) { typ *thing=(typ *)delMe; thing->CAR=NULL; thing->CDR=NULL; free(thing); return 0; }
 
@@ -113,8 +105,6 @@ int del_routine(thing_th *thing);
 thing_th *Grid(void);
 int del_grid(thing_th *grid);
 kind_t th_kind(const thing_th *thing);
-unsigned int th_references(const thing_th *thing);
-unsigned int th_level(const thing_th *thing);
 int is_list(const thing_th *thing);
 int is_lambda(const thing_th *thing);
 int is_functor(const thing_th *thing);
@@ -141,7 +131,6 @@ thing_th *reg_to_parent(thing_th *thing);
 
 int SKIP_REG;
 thing_th *rootEnvironment;
-thing_th *globalRegistry;
 thing_th *rootBacros;
 thing_th *env;
 unsigned int env_levels;
@@ -150,7 +139,6 @@ int establish_root_environment(void);
 thing_th *scope_containing(const char *label);
 thing_th *lookup_txt(const char *label);
 thing_th *lookup_sym(const thing_th *label);
-thing_th *spawn_thing(kind_t kind);
 int new_env(void);
 thing_th *push_env(thing_th *newScope);
 int pop_env(void);

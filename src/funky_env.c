@@ -16,8 +16,12 @@ static thing_th *Primordial_Cons(thing_th *car, thing_th *cdr) {
 }
 
 static thing_th *spawn_env(thing_th *prevEnv, thing_th *scope) {
+    thing_th *anon;
     if(th_kind(scope)!=grid_k)
         return env;
+    anon=Primordial_Cons(NULL, NULL);
+    Set(scope, ANONYMOUS_KW, anon);
+    Set(scope, "&anon-tail", anon);
     return env=Primordial_Cons(scope, prevEnv);
 }
 
@@ -50,7 +54,6 @@ static int establish_bacros(thing_th *bacroGrid) {
 int establish_root_environment(void) {
     SKIP_REG=0;
     env_levels=0;
-    globalRegistry=Primordial_Grid();
     spawn_env(NULL, Primordial_Grid());
     rootEnvironment=Car(env);
     rootBacros=Grid();
@@ -142,103 +145,15 @@ static int identified(grid_th *catalog, void *addy) {
     return result;
 }
 
-static int wipe_registry(grid_th *grid) {
-    char **keywords=grid_keys_list(grid->data);
-    char **kw=keywords;
-    while(kw && *kw) {
-        del_thing((thing_th *)get_grid_item(grid->data, *kw));
-        ++kw;
-    }
-    wipe_keys_list(keywords);    
-    del_grid((thing_th *)grid);
-    return 0;
-}
-
-static int clean_registry(grid_th *grid) {
-    char **keywords=grid_keys_list(grid->data);
-    char **kw=keywords;
-    while(kw && *kw) {
-        thing_th *thing=(thing_th *)get_grid_item(grid->data, *kw);
-        if(thing && thing->references<1)
-            del_thing(thing);
-        set_grid_item(grid->data, *kw, NULL);
-        ++kw;
-    } 
-    wipe_keys_list(keywords);    
-    del_grid((thing_th *)grid);
-    return 0;
-}
-
-static int knock_reference_count(thing_th *cell) {
-    return cell && cell->references && --cell->references;
-}
-
-static thing_th *inner_empty_address_for_kind(char **kw, kind_t kind) {
-    while(kw && *kw) {
-        thing_th *cur=Get(globalRegistry, *kw);
-        if(cur->references==0 && cur->kind==kind) {
-            ++cur->references;
-            return cur;
-        }
-    }
-    return NULL;
-}
-
-static thing_th *find_empty_address_for_kind(kind_t kind) {
-    char **keywords=grid_keys_list(((grid_th *)globalRegistry)->data);
-    thing_th *result=inner_empty_address_for_kind(keywords, kind);
-    wipe_keys_list(keywords);    
-    return result;
-}
-
-static thing_th *spawn_new_thing(kind_t kind) {
-    fprintf(stderr, "This needs to be finished, Ishy!");
-    switch(kind) {
-        case error_k:
-            return (thing_th *)calloc(1, sizeof(err_th));
-        case atom_k:
-            return (thing_th *)calloc(1, sizeof(atom_th));
-        case number_k:
-            return (thing_th *)calloc(1, sizeof(number_th));
-        case string_k:
-            return (thing_th *)calloc(1, sizeof(string_th));
-        case cons_k:
-            return (thing_th *)calloc(1, sizeof(cons_th));
-        case grid_k:
-            return (thing_th *)calloc(1, sizeof(grid_th));
-        case routine_k:
-            return (thing_th *)calloc(1, sizeof(routine_th));
-        case method_k:
-            return (thing_th *)calloc(1, sizeof(method_th));
-        case procedure_k:
-            return (thing_th *)calloc(1, sizeof(procedure_th));
-        case macro_k:
-            return (thing_th *)calloc(1, sizeof(macro_th));
-        case gen_k:
-            return (thing_th *)calloc(1, sizeof(gen_th));
-        case null_k:
-            return NULL;
-    }
-    return NULL;
-}
-
-thing_th *spawn_thing(kind_t kind) {
-    thing_th *result=NULL;
-    if(!SKIP_REG) 
-        result=find_empty_address_for_kind(kind);
-    if(result) 
-        return result;
-    return spawn_new_thing(kind);
+static thing_th *pop_anonymous_elements(thing_th *cur, thing_th *next) {
+    del_thing(Car(cur));
+    del_thing(cur);
+    return next;
 }
 
 static int pop_scope_grids(grid_th *grid) {
-    char **keywords=grid_keys_list(grid->data);
-    char **kw=keywords;
-    while(kw && *kw) {
-        knock_reference_count((thing_th *)get_grid_item(grid->data, *kw));
-        ++kw;
-    }
-    wipe_keys_list(keywords);    
+    thing_th *cur=(thing_th *)get_grid_item(grid->data, ANONYMOUS_KW);
+    while(cur && (cur=pop_anonymous_elements(cur, Cdr(cur))));
     del_grid((thing_th *)grid);
     return 0;
 }
@@ -279,7 +194,6 @@ static int current_env_is_not_top_env() {
 int pop_env(void) {
     if(current_env_is_not_top_env())
         return del_env();
-    clean_registry((grid_th *)globalRegistry);
     return 1;
 }
 
@@ -292,37 +206,38 @@ thing_th *env_set(const char *label, thing_th *thing) {
     return thing;
 }
 
-static thing_th *regist_anonymous_thing(thing_th *registry, 
-                                        thing_th *thing) {
-    char *idstr;
-    asprintf(&idstr, "%d", (int)thing);
-    Set(registry, idstr, thing);
-    erase_string(idstr);
-    return thing;
+static thing_th *safely_register_thing(thing_th *anon, thing_th *regMe) {
+    thing_th *attachMe;
+    if(!anon)
+        return NULL;
+    attachMe=Primordial_Cons(regMe, NULL);
+    set_cdr(anon, attachMe);
+    return attachMe;
+}
+
+static thing_th *reg_to_scope(thing_th *scope, thing_th *regMe) {
+    if(!scope)
+        return NULL;
+    Set(Car(scope), "&anon-tail", 
+        safely_register_thing(Get(Car(scope), "&anon-tail"), regMe));
+    return regMe;
 }
 
 thing_th *reg_thing(thing_th *thing) {
     if(SKIP_REG)
         return thing;
-    return regist_anonymous_thing(globalRegistry, thing);
-}
-
-thing_th *recursive_reg_2_parent(thing_th *thing) {
-    if(!thing)
-        return NULL;
-    if(Car(thing))
-        recursive_reg_2_parent(Car(thing));
-    if(Cdr(thing))
-        recursive_reg_2_parent(Cdr(thing));
-    thing->level--;
-    return thing;
+    return reg_to_scope(env, thing);
 }
 
 thing_th *reg_to_parent(thing_th *thing) {
-    return recursive_reg_2_parent(thing);
+    thing_th *tmpChild=env;
+    thing_th *copyInParentScope;
+    env=Cdr(env);
+    copyInParentScope=duplicate(thing);
+    env=tmpChild;
+    return copyInParentScope;
 }
 
 void wipe_env(void) {
     while(del_env());
-    wipe_registry((grid_th*)globalRegistry);
 }
