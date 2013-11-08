@@ -59,8 +59,10 @@ int establish_root_environment(void) {
     rootBacros=Grid();
     Set(rootEnvironment, "nil", NULL);
     Set(rootEnvironment, "true", Atom("true"));
-    Set(rootEnvironment, "+", Routine(&dirty_sum));
-    Set(rootEnvironment, "-", Routine(&dirty_sub));
+    Set(rootEnvironment, "add", Routine(&dirty_sum));
+    Set(rootEnvironment, "+", Get(rootEnvironment, "add"));
+    Set(rootEnvironment, "subtract", Routine(&dirty_sub));
+    Set(rootEnvironment, "-", Get(rootEnvironment, "subtract"));
     Set(rootEnvironment, "if", Method(&funky_if));
     Set(rootEnvironment, "&ver", String("Funky Lisp Draft 3"));
     Set(rootEnvironment, "set!", Routine(&funky_set));
