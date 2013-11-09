@@ -264,13 +264,6 @@ thing_th *funky_grid_get(thing_th *args) {
                              Car(Cdr(args)));
 }
 
-thing_th *funky_single_cond_case(thing_th *predicate,
-                                 thing_th *consequent) {
-    if(eval(predicate))
-        return eval(consequent);
-    return NULL;
-}
-
 thing_th *funky_truthy(thing_th *args) {
     return Car(args) ? lookup_txt("true") : NULL;
 }

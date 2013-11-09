@@ -154,7 +154,6 @@ int SKIP_REG;
 thing_th *rootEnvironment;
 thing_th *rootBacros;
 thing_th *env;
-unsigned int env_levels;
 
 int establish_root_environment(void);
 thing_th *scope_containing(const char *label);

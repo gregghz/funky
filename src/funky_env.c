@@ -25,12 +25,7 @@ static thing_th *spawn_env(thing_th *prevEnv, thing_th *scope) {
     return env=Primordial_Cons(scope, prevEnv);
 }
 
-unsigned int count_env_levels(void) {
-    return env_levels;
-}
-
 thing_th *push_env(thing_th *newScope) {
-    ++env_levels;
     return spawn_env(env, newScope);
 }
 
@@ -53,7 +48,6 @@ static int establish_bacros(thing_th *bacroGrid) {
 
 int establish_root_environment(void) {
     SKIP_REG=0;
-    env_levels=0;
     spawn_env(NULL, Primordial_Grid());
     rootEnvironment=Car(env);
     rootBacros=Grid();
@@ -185,7 +179,6 @@ int del_env(void) {
     if(!env)
         return 0;
     env=delete_env(env);
-    --env_levels;
     return 1;
 }
 

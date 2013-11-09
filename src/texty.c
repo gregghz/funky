@@ -38,24 +38,8 @@ int is_paren(const char c) {
     return is_opener(c) || is_closer(c);
 }
 
-int is_escaper(const char c) {
-    return c=='\\';
-}
-
 int is_quotation(const char c) {
     return c=='"' || c=='\'';
-}
-
-char parenthetical_compliment(const char c) {
-    switch (c) {
-        case '(': return ')';
-        case ')': return '(';
-        case '[': return ']';
-        case ']': return '[';
-        case '{': return '}';
-        case '}': return '{';
-    }
-    return c;
 }
 
 static int is_digit(const char c) {
