@@ -1,0 +1,61 @@
+#+TITLE: Hacking, Bug Reports, and Enhancement Requests
+Before contributing bug reports, enhancement requests, or code changes
+to this project, be sure you're familiar with the basic tenets of what
+makes a  good "hacker."  Eric S.  Raymond has some good  guidelines on
+this one:
+
+http://www.catb.org/esr/faqs/smart-questions.html
+http://www.catb.org/esr/faqs/hacker-howto.html
+
+* Bugs
+Bug reports should be submitted in the form of a failing script in the
+./src/bugs/ directory of the project that will succeed once the bug is
+properly fixed.  That way, anybody who  runs make regress will see the
+bug right away, the makefile will  help draw all attention to that bug
+and it should hasten the fix along nicely.
+
+Attempting to report a bug by any means other than a source-controlled
+failing script that has sane passing criteria will be ignored.
+
+* Enhancements
+Enhancement  requests should  be submitted  in the  form of  a failing
+script  in  the  ./src/enhance/  directory that  will  pass  once  the
+enhancement is complete.
+
+When  suggesting   an  enhancement,   consider  whether   adding  that
+enhancement would satisfy the hacking rules outlined below.
+
+* Hacking
+Like every open  source project, contributions are  welcome!  Here are
+some things to look out for before submitting a pull request.
+
+ 1. No autoconf.  Ever.  It's trash.
+ 2. If  your commits don't  pass the  existing tests, it'll  be really
+    hard to convince  us you're not a bozo.   Before pushing anything,
+    make sure  your test copies are  all current.  The makefile  has a
+    convenient target to run all tests before staging any commits.
+ 3. If  you think the tests  are wrong, address that  before trying to
+    push a related code change to the source base.
+ 4. No effort will be made to accomodate the unique aspects of Windows
+    or HP-UX or Solaris or  other closed-source platforms.  Life's too
+    short to waste any time pandering to crappy software.
+ 5. Please avoid bloating up the funk machine.  Language features that
+    can be implemented in funk rather than in C should do so.
+ 6. Conform to the notation convention.
+ 7. Our  community loves a good  argument and ignores people  who make
+    bad arguments.  Even if you're right, you have to argue your point
+    like an adult or we won't pull your code.  (Protip: Linus Torvalds
+    is terrible at argument.  Don't argue like he does.)
+
+* Notation Convention
+We use the following conventions to  help convey certain things to the
+user (programmer).
+
+ 1. All procedures with side effects  end with the exclamation mark or
+    "bang" character  (such as set!  which  sets the value of  a local
+    variable).   (Note:   Programmers  that   make  abundant   use  of
+    side-effect causing  procedures are  refered to by  the pejorative
+    "gang banger" because side effects are the root of all evil)
+ 2. All predicate  procedures end in a question mark.   (such as true?
+    and error? and atom?)
+ 3. Internal procedures and variables are preceded by an ampersand.
