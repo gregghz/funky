@@ -239,6 +239,8 @@ thing_th *funky_pair(thing_th *args) {
 static int set_grid_pair_data(thing_th *grid,
                               thing_th *key,
                               thing_th *val) {
+    if(!key)
+        return 0;
     Set(grid, sym(key), val);
     return 1;
 }

@@ -310,8 +310,12 @@ static thing_th *grid_keys(grid_th *grid) {
     char **keys=grid_keys_list(grid->data);
     char **kw=keys;
     thing_th *allKeys;
-    if(!keys || !*keys)
+    if(!keys)
         return NULL;
+    if(!*keys) {
+        wipe_keys_list(keys);
+        return NULL;
+    }
     allKeys=Cons(Atom(*kw++), NULL);
     while(kw && *kw) {
         append(allKeys, Cons(Atom(*kw), NULL));
