@@ -264,8 +264,14 @@ thing_th *funky_grid_get(thing_th *args) {
                              Car(Cdr(args)));
 }
 
+static int this_cell_is_truthy(thing_th *cell) {
+    if(th_kind(cell)==grid_k)
+        return !(!Keys(cell));
+    return cell && (Car(cell) || Cdr(cell));
+}
+
 thing_th *funky_truthy(thing_th *args) {
-    return Car(args) ? lookup_txt("true") : NULL;
+    return this_cell_is_truthy(Car(args)) ? lookup_txt("true") : NULL;
 }
 
 thing_th *funky_nilly(thing_th *args) {

@@ -178,7 +178,7 @@ thing_th *Car(const thing_th *thing) {
         case gen_k:
             return cons_first_thing((cons_th *)thing);
         case grid_k:
-            return NULL;
+            return Keys(thing);
         case null_k:
             return NULL;
     }
@@ -200,7 +200,7 @@ thing_th *Cdr(const thing_th *thing) {
         case gen_k:
             return cons_second_thing((cons_th *)thing);
         case grid_k:
-            return NULL;
+            return Vals(thing);
         case null_k:
             return NULL;
     }
@@ -321,7 +321,7 @@ static thing_th *grid_keys(grid_th *grid) {
     return allKeys;
 }
 
-thing_th *Keys(thing_th *grid) {
+thing_th *Keys(const thing_th *grid) {
     if(!grid || th_kind(grid)!=grid_k)
         return NULL;
     return grid_keys((grid_th *)grid);
@@ -341,7 +341,7 @@ static thing_th *grid_vals(grid_th *grid) {
     return values;
 }
 
-thing_th *Vals(thing_th *grid) {
+thing_th *Vals(const thing_th *grid) {
     if(!grid || th_kind(grid)!=grid_k) 
         return NULL;
     return grid_vals((grid_th *)grid);

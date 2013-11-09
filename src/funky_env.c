@@ -60,7 +60,7 @@ int establish_root_environment(void) {
     Set(rootEnvironment, "if", Method(&funky_if));
     Set(rootEnvironment, "&ver", String("Funky Lisp Draft 3"));
     Set(rootEnvironment, "set!", Routine(&funky_set));
-    Set(rootEnvironment, "print", Routine(&funky_print));
+    Set(rootEnvironment, "&print", Routine(&funky_print));
     Set(rootEnvironment, "list", Routine(&funky_list));
     Set(rootEnvironment, "pair", Routine(&funky_pair));
     Set(rootEnvironment, "grid", Routine(&funky_grid));

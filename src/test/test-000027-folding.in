@@ -1,0 +1,2 @@
+(fold print (list "a" "b" "c" "d"))
+(foldr print (list "e" "f" "g" "h"))
