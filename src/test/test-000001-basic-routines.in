@@ -14,4 +14,5 @@
 (if (true? (list)) (print "BROKEN: Empty list should not be truthy") (print "OK"))
 (if (true? (list 1)) (print "OK") (print "BROKEN: single element list is not falsey"))
 (if (true? (list 1 1 1 1 1)) (print "OK") (print "BROKEN: multiple-element list is not falsey"))
+(if (true? {}) (print "BROKEN: Empty grid is not truthy.") (print "OK"))
 (if (true? {a:"alpha"}) (print "OK") (print "BROKEN: populated grids are not falsey"))
