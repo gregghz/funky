@@ -1,0 +1,2 @@
+(def istwo (x) (= x 2))
+(filt istwo [1 2 1 2 1 2 1 2])
