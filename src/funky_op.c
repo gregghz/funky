@@ -265,9 +265,21 @@ thing_th *funky_grid_get(thing_th *args) {
 }
 
 static int this_cell_is_truthy(thing_th *cell) {
-    if(th_kind(cell)==grid_k)
-        return !(!Keys(cell));
-    return cell && (Car(cell) || Cdr(cell));
+    switch(th_kind(cell)) {
+        case grid_k:
+            return Keys(cell)!=NULL;
+        case error_k: case null_k:
+            return 0;
+        case cons_k: case macro_k: 
+        case gen_k: case procedure_k:
+            return Car(cell)!=NULL || Cdr(cell)!=NULL;
+        case atom_k:
+            return !streq(sym(cell), "nil");
+        case number_k: case string_k:
+            return 1;
+        case routine_k: case method_k:
+            return call_rt(cell)!=NULL;
+    }
 }
 
 thing_th *funky_truthy(thing_th *args) {
