@@ -19,6 +19,9 @@ stage: run
 	./anticommentism.sh
 	git status -s | grep -e '^[M ]M' | awk '{print $$2}' | xargs git stage
 
+regress: run
+	./regress.sh
+
 tinker: funky_tools
 	./$(TARGETFUNKMACHINE) ./indispensibles/core.srfm -b tinkerage.funk
 
