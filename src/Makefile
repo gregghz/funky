@@ -8,8 +8,7 @@ tinkerage.funk:
 
 initial-tests: funky_tools
 	./runtests.sh
-	echo 'Checking for memory leaks...'
-	cat test/*.in | valgrind ./$(TARGETFUNKMACHINE) ./indispensibles/core.srfm  2>&1 | grep 'no leaks are possible'
+	./memmytest.sh ./$(TARGETFUNKMACHINE) ./indispensibles/core.srfm
 
 funky_tools: $(TARGETFUNKMACHINE)
 
