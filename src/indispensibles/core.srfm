@@ -39,3 +39,8 @@
 (def repeat (expr)
      (list expr
            (gen repeat expr)))
+(def filt (predicate sequence) 
+     (if (> (len sequence) 0)
+         (if (predicate (head sequence))
+             (cons (head sequence) (filt predicate (rest sequence)))
+             (filt predicate (rest sequence))  )) )
