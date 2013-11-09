@@ -66,3 +66,8 @@
 (def &mult (x y) (apply + (take y (repeat x))))
 (def multiply (x) (fold-left &mult x &args))
 (def * () (apply multiply &args))
+(def &expt (x y)
+     (apply multiply (take y (repeat x))))
+(def exponent (x)
+     (fold-left &expt x &args))
+(def ^ () (apply exponent &args))
