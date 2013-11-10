@@ -36,7 +36,7 @@ int new_env(void) {
 static int establish_bacros(thing_th *bacroGrid) {
     if(!bacroGrid) return 1;
     Set(bacroGrid, "~>", Atom("rapply"));
-    Set(bacroGrid, "<~", Atom("apply"));
+    Set(bacroGrid, "<~", Atom("safely-apply"));
     Set(bacroGrid, "->", Atom("rcall"));
     Set(bacroGrid, "<-", Atom("call"));
     Set(bacroGrid, "<S", Atom("strict-apply"));
@@ -51,6 +51,7 @@ int establish_root_environment(void) {
     spawn_env(NULL, Primordial_Grid());
     rootEnvironment=Car(env);
     rootBacros=Grid();
+    unknownSymbolError=Err(Cons(String("Unknown symbol"), NULL));
     Set(rootEnvironment, "nil", NULL);
     Set(rootEnvironment, "true", Atom("true"));
     Set(rootEnvironment, "add", Routine(&dirty_sum));
@@ -60,7 +61,7 @@ int establish_root_environment(void) {
     Set(rootEnvironment, "if", Method(&funky_if));
     Set(rootEnvironment, "&ver", String("Funky Lisp Draft 3"));
     Set(rootEnvironment, "set!", Routine(&funky_set));
-    Set(rootEnvironment, "&print", Routine(&funky_print));
+    Set(rootEnvironment, "print_", Routine(&funky_print));
     Set(rootEnvironment, "list", Routine(&funky_list));
     Set(rootEnvironment, "pair", Routine(&funky_pair));
     Set(rootEnvironment, "grid", Routine(&funky_grid));
@@ -89,6 +90,8 @@ int establish_root_environment(void) {
     Set(rootEnvironment, "gen", Routine(&funky_gen));
     Set(rootEnvironment, "cons", Routine(&funky_cons));
     Set(rootEnvironment, "append", Routine(&funky_append));
+    Set(rootEnvironment, "error?", Routine(&funky_is_error));
+    Set(rootEnvironment, "grid?", Routine(&funky_is_grid));
     Set(rootEnvironment, UNKNOWN_HANDLER, Atom(UNKNOWN_LIT));
     establish_bacros(rootBacros);
     return new_env();
@@ -118,8 +121,7 @@ static thing_th *inner_lookup(const char *label,
                               thing_th *containingEnv) {
    if(containingEnv)
         return Get(containingEnv, label);
-   return Err(Cons(String("Unknown symbol"),
-                   Cons(Atom(label), NULL)));
+   return unknownSymbolError;
 }
 
 thing_th *lookup_txt(const char *label) {

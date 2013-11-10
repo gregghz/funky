@@ -154,6 +154,7 @@ int SKIP_REG;
 thing_th *rootEnvironment;
 thing_th *rootBacros;
 thing_th *env;
+thing_th *unknownSymbolError;
 
 int establish_root_environment(void);
 thing_th *scope_containing(const char *label);
@@ -199,6 +200,8 @@ thing_th *funky_length(thing_th *args);
 thing_th *funky_gen(thing_th *args);
 thing_th *funky_cons(thing_th *args);
 thing_th *funky_append(thing_th *args);
+thing_th *funky_is_error(thing_th *args);
+thing_th *funky_is_grid(thing_th *args);
 
 thing_th *depict(thing_th *thing);
 thing_th *depict_error(thing_th *errThing);

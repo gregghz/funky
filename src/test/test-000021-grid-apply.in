@@ -1,6 +1,5 @@
 (true? (set! g {"x": 3,"y": 4,"z": 2,"a": 3}))
 (true? (set! h {"z": 2}))
 (def arbitrary-sum-thing (x y z a) (print (+ x y z a)))
-g ~> arbitrary-sum-thing
-
-
+(apply arbitrary-sum-thing g)
+(apply arbitrary-sum-thing h)

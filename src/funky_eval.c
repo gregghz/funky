@@ -20,8 +20,6 @@ static thing_th *evaluate_each_subexpr(thing_th *exprs) {
     while(exprs) {
         result=eval(Car(exprs));
         exprs=Cdr(exprs);
-        if(th_kind(result)==error_k)
-            return result;
     }
     return result;
 }
@@ -95,10 +93,6 @@ static thing_th *reconstitute_args_from_grid(thing_th *ops,
 
 static thing_th *apply_args_over_lambda(thing_th *lambda, 
                                         thing_th *args) {
-    if(th_kind(args)==error_k) {
-        depict_error(args);
-        return args;
-    }
     if(th_kind(args)==grid_k)
         args=reconstitute_args_from_grid(Car(lambda), args);
     switch(th_kind(lambda)) {
@@ -156,7 +150,7 @@ static thing_th *recursive_lambda_expr(thing_th *label,
 }
 
 static thing_th *default_symbol_lookup(thing_th *symbol, thing_th *represented) {
-    if(th_kind(represented)==error_k)
+    if(represented==unknownSymbolError)
         return symbol;
     return represented;
 }

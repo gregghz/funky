@@ -1,5 +1,18 @@
+string not error :)
+"string not error :)"
+int not error :)
+"int not error :)"
+emtpy list not error :)
+"emtpy list not error :)"
+list not error :)
+"list not error :)"
+procedure not error :)
+"procedure not error :)"
+gen not error :)
+"gen not error :)"
+err is error :)
+"err is error :)"
+error cons is not error
+"error cons is not error"
 (err "this is no good")
-(<def @address-omitted@  ((print "hello, world") (err "it is over") (print "I don't matter"))> (print "I don't matter"))
-hello, world
-(err "it is over")
-(err "this is no good")
+(err "don't actually print")

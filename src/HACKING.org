@@ -36,9 +36,9 @@ some things to look out for before submitting a pull request.
     convenient target to run all tests before staging any commits.
  3. If  you think the tests  are wrong, address that  before trying to
     push a related code change to the source base.
- 4. No effort will be made to accomodate the unique aspects of Windows
-    or HP-UX or Solaris or  other closed-source platforms.  Life's too
-    short to waste any time pandering to crappy software.
+ 4. No effort will  be made to accomodate the unique  aspects of OS X,
+    Windows, HP-UX, Solaris or  other closed-source platforms.  Life's
+    too short to waste any time pandering to crappy software.
  5. Please avoid bloating up the funk machine.  Language features that
     can be implemented in funk rather than in C should do so.
  6. Conform to the notation convention.

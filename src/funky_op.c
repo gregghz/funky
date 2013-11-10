@@ -350,3 +350,11 @@ thing_th *funky_append(thing_th *args) {
     }
     return output;
 }
+
+thing_th *funky_is_error(thing_th *args) {
+    return (th_kind(Car(args))==error_k) ? lookup_txt("true") : NULL;
+}
+
+thing_th *funky_is_grid(thing_th *args) {
+    return (th_kind(Car(args))==grid_k) ? lookup_txt("true") : NULL;
+}
