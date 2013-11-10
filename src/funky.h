@@ -202,6 +202,7 @@ thing_th *funky_cons(thing_th *args);
 thing_th *funky_append(thing_th *args);
 thing_th *funky_is_error(thing_th *args);
 thing_th *funky_is_grid(thing_th *args);
+thing_th *funky_make_txt(thing_th *args);
 
 thing_th *depict(thing_th *thing);
 thing_th *depict_error(thing_th *errThing);

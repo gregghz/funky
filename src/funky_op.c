@@ -358,3 +358,23 @@ thing_th *funky_is_error(thing_th *args) {
 thing_th *funky_is_grid(thing_th *args) {
     return (th_kind(Car(args))==grid_k) ? lookup_txt("true") : NULL;
 }
+
+static thing_th *inner_mktxt(text_buffer *tb, thing_th *args) {
+    while(args) {
+        const char *txt=sym(Car(args));
+        long i;
+        long m=strlen(txt);
+        for(i=0;i<m;++i) {
+            tb_append(tb, txt[i]);
+        }
+        args=Cdr(args);
+    }
+    return String(tb->txt);
+}
+
+thing_th *funky_make_txt(thing_th *args) {
+    text_buffer *tb=tb_new();
+    thing_th *ret=inner_mktxt(tb, args);
+    tb_wipe(tb);
+    return ret;
+}

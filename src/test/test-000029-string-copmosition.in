@@ -1,0 +1,3 @@
+(set! stringVarHere "yig")
+(txt "foo" stringVarHere "bas" undefined-thing)
+(txt)
