@@ -378,3 +378,4 @@ thing_th *funky_make_txt(thing_th *args) {
     tb_wipe(tb);
     return ret;
 }
+

@@ -1,8 +1,17 @@
 #include "funky.h"
 #include <unistd.h>
 
+static int file_exists(const char *fpath) {
+    return strlen(fpath)>0 && access(fpath, F_OK)==0;
+}
+
 static thing_th *do_nothing(thing_th *expr) {
     return NULL;
+}
+
+static int bad_source_file(const char *fpath) {
+    fprintf(stderr, "Could not load funk file: %s\n", fpath);
+    return 1;
 }
 
 static int evaluate_then_process(thing_th *exprs,
@@ -27,6 +36,8 @@ static int consume_file_contents(FILE *src, c_routine pproc) {
 }
 
 static int consume_file(const char *filePath, c_routine pproc) {
+    if(!file_exists(filePath))
+        return bad_source_file(filePath);
     return consume_file_contents(fopen(filePath, "rt"), pproc);
 }
 
@@ -46,10 +57,6 @@ static int desugar_stdin(void) {
     return desugar_stream(stdin);
 }
 
-static int file_exists(const char *fpath) {
-    return strlen(fpath)>0 && access(fpath, F_OK)==0;
-}
-
 static int process_arguments(int max, char **argv) {
     int batchMode=0;
     int silentMode=0;
@@ -66,29 +73,12 @@ static int process_arguments(int max, char **argv) {
             argc+=2;
         }
         else if(file_exists(argv[argc]))
-            consume_file(argv[argc], silentMode ? do_nothing : depict);
+            if(consume_file(argv[argc], do_nothing)!=0)
+                return 1;
     }
     if(batchMode)
         return 0;
-    return consume_file_contents(stdin, depict);
-}
-
-static int read_into_root_environment_then_ascend(FILE *src, 
-                                                  thing_th *enviro) {
-    return !finalize_file_consumption(read_exprs(src),
-                                      src,
-                                      do_nothing);
-}
-
-static int bad_indispensible(const char *fpath) {
-    fprintf(stderr, "Could not load core funk: %s\n", fpath);
-    return 0;
-}
-
-static int load_indispensibles(const char *fpath) {
-    if(!file_exists(fpath))
-        return bad_indispensible(fpath);
-    return read_into_root_environment_then_ascend(fopen(fpath, "rt"), env);
+    return consume_file_contents(stdin, silentMode ? do_nothing : depict);
 }
 
 static int finish(int status) {
@@ -101,7 +91,5 @@ static int finish(int status) {
 
 int main (int argc, char **argv) {
     establish_root_environment();
-    if(!load_indispensibles(argv[1]))
-        return finish(1);
-    return finish(process_arguments(argc-2, argv+2));
+    return finish(process_arguments(argc-1, argv+1));
 }

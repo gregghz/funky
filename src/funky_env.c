@@ -71,7 +71,7 @@ int establish_root_environment(void) {
     Set(rootEnvironment, "mac", Method(&funky_macro));
     Set(rootEnvironment, "def", Method(&funky_def));
     Set(rootEnvironment, "head", Routine(&funky_head));
-    Set(rootEnvironment, "&rest", Routine(&funky_rest));
+    Set(rootEnvironment, "rest_", Routine(&funky_rest));
     Set(rootEnvironment, "last", Routine(&funky_last));
     Set(rootEnvironment, "err", Routine(&funky_err));
     Set(rootEnvironment, "dump", Routine(&funky_dump));
