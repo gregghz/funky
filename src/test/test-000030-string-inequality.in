@@ -2,3 +2,7 @@
 (if (> "b" "a") (print "b is greater") (print "a is greater"))
 (if (> "aa" "ab") (print "a is greater") (print "b is greater"))
 (if (> "ab" "aa") (print "b is greater") (print "a is greater"))
+(if (< "y" "z") (print "y is less") (print "z is less"))
+(if (< "z" "y") (print "z is less") (print "y is less"))
+(if (< "ya" "yz") (print "y is less") (print "z is less"))
+(if (< "yz" "ya") (print "z is less") (print "y is less"))
