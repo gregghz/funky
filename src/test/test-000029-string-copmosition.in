@@ -1,4 +1,4 @@
 (set! stringVarHere "yig")
-(txt "foo" stringVarHere "bas" undefined-thing)
-(txt)
-(txt 1 2 3 4)
+(txt.cat "foo" stringVarHere "bas" undefined-thing)
+(txt.cat)
+(txt.cat 1 2 3 4)

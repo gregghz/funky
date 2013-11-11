@@ -80,3 +80,4 @@
 (def exponent (x)
      (fold-left &expt x &args))
 (def ^ () (apply exponent &args))
+(set! txt (grid (pair cat txt-concatenate_) ))
