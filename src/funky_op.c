@@ -114,8 +114,14 @@ thing_th *funky_head(thing_th *args) {
     return Car(Car(args));
 }
 
+static thing_th *process_next(thing_th *cell) {
+    if(th_kind(cell)!=gen_k)
+        return cell;
+    return apply(cell);
+}
+
 thing_th *funky_rest(thing_th *args) {
-    return Cdr(Car(args));
+    return process_next(Cdr(Car(args)));
 }
 
 thing_th *funky_list(thing_th *args) {
@@ -165,11 +171,22 @@ static int funky_compare_numbers(thing_th *left, thing_th *right) {
     return lnum>rnum;
 }
 
+static int funky_compare_strings(const char *left, const char *right) {
+    int i=0;
+    int llen=strlen(left);
+    int rlen=strlen(right);
+    int max=(llen>rlen) ? rlen : llen;
+    for(i=0;i<max;++i)
+        if(left[i]<right[i])
+            return 0;
+    return 1;
+}
+
 static int lft_greater_than_rit(thing_th *lft, thing_th *rit) {
     if(th_kind(lft)==number_k && th_kind(rit)==number_k)
         return funky_compare_numbers(lft, rit);
     if(th_kind(lft)==string_k && th_kind(rit)==string_k)
-        return 0;
+        return funky_compare_strings(sym(lft), sym(rit));
     fprintf(stderr, "Don't know how to compare the types given.\n");
     return 0;
 }

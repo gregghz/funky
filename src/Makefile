@@ -24,7 +24,7 @@ stage: regress
 
 
 tinker: funky_tools
-	./$(TARGETFUNKMACHINE) ./indispensibles/core.srfm -b tinkerage.funk
+	./$(TARGETFUNKMACHINE) ./indispensibles/core.srfm < tinkerage.funk
 
 funky: funky_tools
 	printf '#!/bin/sh\n./funk_machine ./indispensibles/core.srfm $$@' > funky
