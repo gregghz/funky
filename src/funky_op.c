@@ -114,14 +114,8 @@ thing_th *funky_head(thing_th *args) {
     return Car(Car(args));
 }
 
-static thing_th *process_next(thing_th *cell) {
-    if(th_kind(cell)!=gen_k)
-        return cell;
-    return apply(cell);
-}
-
 thing_th *funky_rest(thing_th *args) {
-    return process_next(Cdr(Car(args)));
+    return Cdr(Car(args));
 }
 
 thing_th *funky_list(thing_th *args) {

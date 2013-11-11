@@ -34,7 +34,7 @@
          (list (stencil (head lst)))))
 (def map (stencil lst)
      (if (> (len lst) 1)
-         (list (stencil (head lst)) (gen mappy stencil (rest lst)))
+         (list (stencil (head lst)) (gen map stencil (rest lst)))
          (list (stencil (head lst)))))
 (def nth (num lst)
      (if (> num 0)
