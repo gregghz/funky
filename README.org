@@ -18,10 +18,10 @@ fine.  In order to run the tests, you will need valgrind.
 
 
 * Intro
-For the most part, Funky is pretty much a variation on Common LISP.
+For the most part, Funky is pretty much another LISP.
 
 ** Procedure Definition
-Defining procedures works basically like with Common:
+Defining procedures works basically like with Common LISP:
 
  (def foo (x y) (+ x y))
 
@@ -95,10 +95,9 @@ interchangeable:
 Output: 
  FOO
 
-Originally the  : and .  operators  needed to be separated  from other
-tokens by spaces.  However, in order to improve our ability to consume
-Javascript,  those  two operations  break  the  symbol boundary.   The
-following lines are interchangeable:
+In order  to improve our  ability to consume  Javascript, the .  and :
+operations  break  the  symbol  boundary.   The  following  lines  are
+interchangeable:
 
  {"blah":429857, "narghe":92090}
 
@@ -195,7 +194,7 @@ procedure definitions...
 
  [1 2 3] ~> addmore
 
- addmore <~ addmore
+ addmore <~ [1 2 3]
 
 ... and these lines are also interchangeable with each other:
 
@@ -205,8 +204,8 @@ procedure definitions...
 
  addmore <S [1 2 3]
 
-This sugar can chain together  to break deeply nested expressions into
-small, legible parts:
+This sugar, when  combined with implicit currying,  can chain together
+to break deeply nested expressions into small, legible parts:
 
  (seq 1 10) -> (map (def (x) (+ x 3))) ~> print
 
@@ -233,10 +232,11 @@ Output:
 
  nil BARBY
 
-Therefore, strict-apply does nothing differently when applying a grid.
-In  the  future,   it  may  become  worth-while   to  have  incomplete
-application  of grids  result in  a curried  procedure asking  for the
-ungiven arguments instead.  But that sounds like arity madness to me.
+Strict-apply is  not very  useful when  applying grids.   Nothing from
+grids ends  up in  the &args  local variable.  In  the future,  it may
+become worth-while to have incomplete application of grids result in a
+curried procedure asking for the  ungiven arguments instead.  But that
+sounds like arity madness to me.
 
 ** Laziness
 Like other  LISP languages,  Funky is eagerly  evaluated at  its core.
@@ -250,7 +250,7 @@ second argument).
 
  (+ 3 2) -> repeat -> (take 4)
 
-Thus we  only evaluate repeat  until we  get the desired  for elements
+Thus we  only evaluate repeat until  we get the desired  four elements
 from it and then its evaluation.
  
 * Documentation
@@ -270,12 +270,12 @@ Some things you'll want to know:
   2. We  use a "true" keyword  instead of "t" to  represent truthiness
      because single-character global constants are stupid.
   3. The funk machine currently  reads until EOF before evaluating the
-     text you gave it.
+     text you gave it.  This is dumb and should change soon.
   4. Not all of the necessary features are finished
   5. It's slow/inefficient.  It'll be faster.  Promise.
-  6. I  broke closures  while trying  to optimize  garbage collection.
-     But since we  have currying, I'm not losing sleep  over that yet.
-     They'll be back soon.
+  6. Closures broke while trying  to optimize garbage collection.  But
+     since we have currying and macros, I'm not losing sleep over that
+     yet.  They'll be back soon.
 
 * License
 Copyright (c) 2013, Anthony "Ishpeck" Tedjamulia All rights reserved.
