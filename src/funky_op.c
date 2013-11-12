@@ -1,35 +1,21 @@
 #include "funky.h"
 
 static long text_to_long(thing_th *numsrc) {
-    int mult=1;
-    long output=0;
-    char *txt;
-    if(th_kind(numsrc)!=number_k)
-        return output;
-    txt=(char *)sym(numsrc);
-    if(*txt=='-') {
-        ++txt;
-        mult=-1;
-    }
-    while(txt && *txt) {
-        output+=((*txt++)-48)*mult;
-        if(*txt) output*=10;
-    }
+    char *lastValidChar;
+    long output=strtol(sym(numsrc), &lastValidChar, 10);
+    if(*lastValidChar!='\0')
+        fprintf(stderr, "Invalid numeric value: %s\n", sym(numsrc));
     return output;
 }
 
 thing_th *dirty_sum(thing_th *args) {
     long num=0;
-    int negative=1;
     char *outty;
-    char *inny;
     thing_th *output;
     if(!args)
         return Number("0");
-    num=strtol(sym(Car(args)), (char **)NULL, 10);
-    args=Cdr(args);
     while(args) {
-        num+=strtol(sym(Car(args)), (char **)NULL, 10);
+        num+=text_to_long(Car(args));
         args=Cdr(args);
     }
     asprintf(&outty, "%ld", num);
@@ -40,18 +26,16 @@ thing_th *dirty_sum(thing_th *args) {
 
 thing_th *dirty_sub(thing_th *args) {
     long num=0;
-    int negative=1;
     char *outty;
-    char *inny;
     thing_th *output;
     if(!args)
         return Number("0");
     if(Cdr(args)) {
-        num=strtol(sym(Car(args)), (char **)NULL, 10);
+        num=text_to_long(Car(args));
         args=Cdr(args);
     }
     while(args) {
-        num-=strtol(sym(Car(args)), (char **)NULL, 10);
+        num-=text_to_long(Car(args));
         args=Cdr(args);
     }
     asprintf(&outty, "%ld", num);
