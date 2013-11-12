@@ -5,7 +5,13 @@ makes a  good "hacker."  Eric S.  Raymond has some good  guidelines on
 this one:
 
 http://www.catb.org/esr/faqs/smart-questions.html
+
 http://www.catb.org/esr/faqs/hacker-howto.html
+
+This is  the "definitional  implementation" of  Funky.  That  is, this
+interpreter serves as the test bed  for the language features of Funky
+LISP.  The goal  is to make the tests constitute  an official spec for
+the language that other implementations can refer to.
 
 * Bugs
 Bug reports should be submitted in the form of a failing script in the
