@@ -25,7 +25,7 @@ static int depict_routine(FILE *tgtStream, thing_th *rooteen) {
 
 static thing_th *depict_lambda(FILE *tgtStream, const char *lbl, thing_th *lambda) {
     thing_th *exprs=Cdr(lambda);
-    fprintf(tgtStream, "%s ", lbl, (int)lambda);
+    fprintf(tgtStream, "%s ", lbl);
     inner_depict(tgtStream, Car(lambda));
     while(exprs) {
         fprintf(tgtStream, " ");
