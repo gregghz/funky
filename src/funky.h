@@ -12,6 +12,9 @@
 #define FUNKY_NEGATIVE 0
 #define FUNKY_AFFIRMATIVE 1
 
+#define GC_REGISTER 1
+#define GC_SKIPREG 0
+
 #define ANONYMOUS_KW "&anon"
 #define ANON_TAIL_KW "&anon-tail"
 #define UNKNOWN_HANDLER "&unknown-handler"
@@ -71,10 +74,10 @@ typedef struct {
     grid_t *data;
 } grid_th;
 
-#define REPR_BLDR(fnm,typ,knd) thing_th *fnm(const char *label) {   \
-    typ *newThing=calloc(1, sizeof(typ));                           \
-    newThing->kind=knd; asprintf(&newThing->repr, "%s", label);     \
-    return reg_thing((thing_th *)newThing);                         \
+#define REPR_BLDR(fnm,typ,knd) thing_th *fnm(const char *label, int shallReg) {  \
+    typ *newThing=calloc(1, sizeof(typ));                                        \
+    newThing->kind=knd; asprintf(&newThing->repr, "%s", label);                  \
+    return shallReg ? reg_thing((thing_th *)newThing) : (thing_th *) newThing;   \
   }
 
 #define REPR_DSTR(fnm,typ) int fnm(thing_th *delMe) {   \
@@ -84,11 +87,11 @@ typedef struct {
     return 0;                                           \
   }
 
-#define LST_BLDR(fnm,typ,knd) thing_th *fnm(thing_th *car, thing_th *cdr) { \
+#define LST_BLDR(fnm,typ,knd) thing_th *fnm(thing_th *car, thing_th *cdr, int shallReg) { \
     typ *newThing=calloc(1, sizeof(typ));                               \
     newThing->kind=knd; newThing->CAR=car;                              \
     newThing->CDR=cdr;                                                  \
-    return reg_thing((thing_th *)newThing);                             \
+    return shallReg ? reg_thing((thing_th *)newThing) : (thing_th *) newThing; \
   }
 
 #define LST_DSTR(fnm,typ) int fnm(thing_th *delMe) {    \
@@ -111,6 +114,18 @@ int del_gen(thing_th *delMe);
 
 thing_th *reg_thing(thing_th *thing);
 
+thing_th *Primordial_Atom(const char *label, int shallReg);
+thing_th *Primordial_Number(const char *label, int shallReg);
+thing_th *Primordial_String(const char *label, int shallReg);
+thing_th *Primordial_Cons(thing_th *car, thing_th *cdr, int shallReg);
+thing_th *Primordial_Err(thing_th *messages, int shallReg);
+thing_th *Primordial_Proc(thing_th *car, thing_th *cdr, int shallReg);
+thing_th *Primordial_Mac(thing_th *car, thing_th *cdr, int shallReg);
+thing_th *Primordial_Gen(thing_th *car, thing_th *cdr, int shallReg);
+thing_th *Primordial_Routine(c_routine theFunction, int shallReg);
+thing_th *Primordial_Method(c_routine theFunction, int shallReg);
+thing_th *Primordial_Grid(int shallReg);
+
 thing_th *Atom(const char *label);
 thing_th *Number(const char *label);
 thing_th *String(const char *label);
@@ -122,9 +137,11 @@ thing_th *Gen(thing_th *car, thing_th *cdr);
 
 thing_th *Routine(c_routine theFunction);
 thing_th *Method(c_routine theFunction);
-int del_routine(thing_th *thing);
 thing_th *Grid(void);
+
+int del_routine(thing_th *thing);
 int del_grid(thing_th *grid);
+
 kind_t th_kind(const thing_th *thing);
 int is_list(const thing_th *thing);
 int is_lambda(const thing_th *thing);
@@ -150,7 +167,6 @@ thing_th *duplicate(thing_th *thing);
 unsigned int count_env_levels(void);
 thing_th *reg_to_parent(thing_th *thing);
 
-int SKIP_REG;
 thing_th *rootEnvironment;
 thing_th *rootBacros;
 thing_th *env;

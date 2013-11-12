@@ -1,28 +1,13 @@
 #include "funky.h"
 
-static thing_th *resume_registering(thing_th *thing) {
-    SKIP_REG=0;
-    return thing;
-}
-
-static thing_th *Primordial_Grid(void) {
-    SKIP_REG=1;
-    return resume_registering(Grid());
-}
-
-static thing_th *Primordial_Cons(thing_th *car, thing_th *cdr) {
-    SKIP_REG=1;
-    return resume_registering(Cons(car, cdr));
-}
-
 static thing_th *spawn_env(thing_th *prevEnv, thing_th *scope) {
     thing_th *anon;
     if(th_kind(scope)!=grid_k)
         return env;
-    anon=Primordial_Cons(NULL, NULL);
+    anon=Primordial_Cons(NULL, NULL, GC_SKIPREG);
     Set(scope, ANONYMOUS_KW, anon);
     Set(scope, ANON_TAIL_KW, anon);
-    return env=Primordial_Cons(scope, prevEnv);
+    return env=Primordial_Cons(scope, prevEnv, GC_SKIPREG);
 }
 
 thing_th *push_env(thing_th *newScope) {
@@ -30,7 +15,7 @@ thing_th *push_env(thing_th *newScope) {
 }
 
 int new_env(void) {
-    return spawn_env(env, Primordial_Grid()) ? 0 : 1;
+    return spawn_env(env, Primordial_Grid(GC_SKIPREG)) ? 0 : 1;
 }
 
 static int establish_bacros(thing_th *bacroGrid) {
@@ -47,8 +32,7 @@ static int establish_bacros(thing_th *bacroGrid) {
 }
 
 int establish_root_environment(void) {
-    SKIP_REG=0;
-    spawn_env(NULL, Primordial_Grid());
+    spawn_env(NULL, Primordial_Grid(GC_SKIPREG));
     rootEnvironment=Car(env);
     rootBacros=Grid();
     unknownSymbolError=Err(Cons(String("Unknown symbol"), NULL));
@@ -208,7 +192,7 @@ static thing_th *safely_register_thing(thing_th *anon, thing_th *regMe) {
     thing_th *attachMe;
     if(!anon)
         return NULL;
-    attachMe=Primordial_Cons(regMe, NULL);
+    attachMe=Primordial_Cons(regMe, NULL, GC_SKIPREG);
     set_cdr(anon, attachMe);
     return attachMe;
 }
@@ -222,8 +206,6 @@ static thing_th *reg_to_scope(thing_th *scope, thing_th *regMe) {
 }
 
 thing_th *reg_thing(thing_th *thing) {
-    if(SKIP_REG)
-        return thing;
     return reg_to_scope(env, thing);
 }
 

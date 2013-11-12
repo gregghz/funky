@@ -1,17 +1,17 @@
 #include "funky.h"
 
-REPR_BLDR(Atom,atom_th,atom_k)
-REPR_BLDR(Number,number_th,number_k)
-REPR_BLDR(String,string_th,string_k)
+REPR_BLDR(Primordial_Atom,atom_th,atom_k)
+REPR_BLDR(Primordial_Number,number_th,number_k)
+REPR_BLDR(Primordial_String,string_th,string_k)
 
 REPR_DSTR(del_atom,atom_th)
 REPR_DSTR(del_number,number_th)
 REPR_DSTR(del_string,string_th)
 
-LST_BLDR(Cons,cons_th,cons_k)
-LST_BLDR(Proc,procedure_th,procedure_k)
-LST_BLDR(Mac,macro_th,macro_k)
-LST_BLDR(Gen,gen_th,gen_k)
+LST_BLDR(Primordial_Cons,cons_th,cons_k)
+LST_BLDR(Primordial_Proc,procedure_th,procedure_k)
+LST_BLDR(Primordial_Mac,macro_th,macro_k)
+LST_BLDR(Primordial_Gen,gen_th,gen_k)
 
 LST_DSTR(del_cons,cons_th)
 LST_DSTR(del_err,err_th)
@@ -19,26 +19,67 @@ LST_DSTR(del_proc,procedure_th)
 LST_DSTR(del_mac,macro_th)
 LST_DSTR(del_gen,gen_th)
 
-thing_th *Err(thing_th *messages) {
+
+thing_th *Atom(const char *label) {
+    return Primordial_Atom(label, GC_REGISTER);
+}
+
+thing_th *Number(const char *label) {
+    return Primordial_Number(label, GC_REGISTER);
+}
+
+thing_th *String(const char *label) {
+    return Primordial_String(label, GC_REGISTER);
+}
+
+thing_th *Cons(thing_th *car, thing_th *cdr) {
+    return Primordial_Cons(car, cdr, GC_REGISTER);
+}
+
+thing_th *Proc(thing_th *car, thing_th *cdr) {
+    return Primordial_Proc(car, cdr, GC_REGISTER);
+}
+
+thing_th *Mac(thing_th *car, thing_th *cdr) {
+    return Primordial_Mac(car, cdr, GC_REGISTER);
+}
+
+thing_th *Gen(thing_th *car, thing_th *cdr) {
+    return Primordial_Gen(car, cdr, GC_REGISTER);
+}
+
+thing_th *Primordial_Err(thing_th *messages, int shallReg) {
     err_th *this_error=calloc(1, sizeof(err_th));
     this_error->kind=error_k;
     this_error->CAR=Atom("err");
     this_error->CDR=messages;
-    return reg_thing((thing_th *)this_error);
+    return shallReg ? reg_thing((thing_th *)this_error) : (thing_th *)this_error;
 }
 
-thing_th *Routine(c_routine theFunction) {
+thing_th *Err(thing_th *messages) {
+    return Primordial_Err(messages, GC_REGISTER);
+}
+
+thing_th *Primordial_Routine(c_routine theFunction, int shallReg) {
     routine_th *rout=calloc(1, sizeof(routine_th));
     rout->kind=routine_k;
     rout->routine=theFunction;
-    return reg_thing((thing_th *)rout);
+    return shallReg ? reg_thing((thing_th *)rout) : (thing_th *)rout;
 }
 
-thing_th *Method(c_routine theFunction) {
+thing_th *Routine(c_routine theFunction) {
+    return Primordial_Routine(theFunction, GC_REGISTER);
+}
+
+thing_th *Primordial_Method(c_routine theFunction, int shallReg) {
     routine_th *rout=calloc(1, sizeof(routine_th));
     rout->kind=method_k;
     rout->routine=theFunction;
-    return reg_thing((thing_th *)rout);
+    return shallReg ? reg_thing((thing_th *)rout) : (thing_th *)rout;
+}
+
+thing_th *Method(c_routine theFunction) {
+    return Primordial_Method(theFunction, GC_REGISTER);
 }
 
 int del_routine(thing_th *thing) {
@@ -55,11 +96,15 @@ int del_method(thing_th *thing) {
     return 0;
 }
 
-thing_th *Grid(void) {
+thing_th *Primordial_Grid(int shallReg) {
     grid_th *grid=calloc(1, sizeof(grid_th));
     grid->kind=grid_k;
     grid->data=new_grid();
-    return reg_thing((thing_th *)grid);
+    return shallReg ? reg_thing((thing_th *)grid) : (thing_th *)grid;
+}
+
+thing_th *Grid(void) {
+    return Primordial_Grid(GC_REGISTER);
 }
 
 int del_grid(thing_th *grid) {
