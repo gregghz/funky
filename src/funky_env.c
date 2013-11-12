@@ -77,6 +77,7 @@ int establish_root_environment(void) {
     Set(rootEnvironment, "error?", Routine(&funky_is_error));
     Set(rootEnvironment, "grid?", Routine(&funky_is_grid));
     Set(rootEnvironment, "txt-concatenate_", Routine(&funky_make_txt));
+    Set(rootEnvironment, "type", Routine(&funky_type_symbol));
     Set(rootEnvironment, UNKNOWN_HANDLER, Atom(UNKNOWN_LIT));
     establish_bacros(rootBacros);
     return new_env();

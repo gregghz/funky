@@ -374,3 +374,19 @@ thing_th *funky_make_txt(thing_th *args) {
     return ret;
 }
 
+static thing_th *identifyTypes(thing_th *args, thing_th *cur) {
+    while(args) {
+        cur=set_cdr(cur, Cons(String(debug_lbl(Car(args))), NULL));
+        args=Cdr(args);
+    }
+    return cur;
+}
+
+thing_th *funky_type_symbol(thing_th *args) {
+    thing_th *head=NULL;
+    if(args) {
+        head=Cons(String(debug_lbl(Car(args))), NULL);
+        identifyTypes(Cdr(args), head);
+    }
+    return head;
+}
