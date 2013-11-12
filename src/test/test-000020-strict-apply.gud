@@ -1,4 +1,4 @@
-(<def @address-omitted@ (x y) ((+ x y))>)
+(def (x y) (+ x y))
 (err "Argument count does not match the operand count")
 10
 (err "Argument count does not match the operand count")

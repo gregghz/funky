@@ -1,4 +1,4 @@
-(<def @address-omitted@ (x) ((+ x 1))>)
+(def (x) (+ x 1))
 true
 False
 "False"

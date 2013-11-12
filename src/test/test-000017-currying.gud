@@ -1,4 +1,4 @@
-(<def @address-omitted@ (x y z) ((+ x y z))>)
-(<def @address-omitted@ (z) ((apply (<def @address-omitted@ (x y z) ((+ x y z))>) (list 11 12 z)))>)
+(def (x y z) (+ x y z))
+(def (z) (apply (def (x y z) (+ x y z)) (list 11 12 z)))
 36
 6

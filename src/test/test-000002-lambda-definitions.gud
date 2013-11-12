@@ -1,5 +1,5 @@
-(<mac @address-omitted@ (x) ((print x))>)
+(mac (x) (print x))
 biggitty
 biggitty
-(<def @address-omitted@ (x y) ((+ x y))>)
+(def (x y) (+ x y))
 7

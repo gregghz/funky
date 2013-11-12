@@ -1,5 +1,5 @@
 4
 Length comparisons look good
 "Length comparisons look good"
-(<def @address-omitted@ (x y) ((+ x y))>)
+(def (x y) (+ x y))
 2

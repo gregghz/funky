@@ -24,11 +24,14 @@ static int depict_routine(FILE *tgtStream, thing_th *rooteen) {
 }
 
 static thing_th *depict_lambda(FILE *tgtStream, const char *lbl, thing_th *lambda) {
-    fprintf(tgtStream, "<%s @%d@ ", lbl, (int)lambda);
+    thing_th *exprs=Cdr(lambda);
+    fprintf(tgtStream, "%s ", lbl, (int)lambda);
     inner_depict(tgtStream, Car(lambda));
-    fprintf(tgtStream, " ");
-    inner_depict(tgtStream, Cdr(lambda));
-    fprintf(tgtStream, ">");
+    while(exprs) {
+        fprintf(tgtStream, " ");
+        inner_depict(tgtStream, Car(exprs));
+        exprs=Cdr(exprs);
+    }
     return Cdr(Cdr(lambda));
 }
 

@@ -1,7 +1,7 @@
 true
 "BAR"
 "quux"
-(<def @address-omitted@ (x y z a) ((list (+ x 1) (+ y 1) (+ z 1) (+ a 1)))>)
+(def (x y z a) (list (+ x 1) (+ y 1) (+ z 1) (+ a 1)))
 14
 How about this?
 "How about this?"
